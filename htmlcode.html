@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Awesome Chat!</title>
+    <style>
+        body {
+            font-family: monospace; /* Like old computer text */
+            background-color: #f0f0f0; /* Light gray background */
+            color: #000000; /* Black text */
+            margin: 20px;
+        }
+        h1 {
+            color: blue; /* Blue heading */
+            text-align: center;
+        }
+        .chat-container {
+            background-color: #ffffff; /* White box for chat */
+            border: 1px solid #cccccc; /* Thin gray border */
+            padding: 15px;
+        }
+        #username-section {
+            margin-bottom: 10px;
+        }
+        #chat-area {
+            height: 200px;
+            overflow-y: auto; /* Scroll if there are too many messages */
+            border: 1px dashed #999999; /* Dashed gray border */
+            padding: 10px;
+            margin-bottom: 10px;
+            white-space: pre-wrap; /* Keep messages on separate lines */
+        }
+        input[type="text"] {
+            font-family: monospace;
+            padding: 5px;
+            margin-right: 5px;
+        }
+        button {
+            font-family: monospace;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+        #message-input {
+            width: 70%;
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome to My Awesome Chat!</h1>
+
+    <div class="chat-container">
+        <div id="username-section">
+            <label for="username">Your Name:</label>
+            <input type="text" id="username" placeholder="Enter your name">
+            <button onclick="setUsername()">Join Chat</button>
+        </div>
+
+        <div id="chat-area">
+            </div>
+
+        <div>
+            <input type="text" id="message-input" placeholder="Type your message">
+            <button onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+
+    <script>
+        let myUsername = "";
+        const chatArea = document.getElementById('chat-area');
+        const usernameInput = document.getElementById('username');
+        const messageInput = document.getElementById('message-input');
+        const usernameSection = document.getElementById('username-section');
+
+        function setUsername() {
+            const username = usernameInput.value.trim();
+            if (username) {
+                myUsername = username;
+                usernameSection.innerHTML = `<p>You are now chatting as: <strong>${myUsername}</strong></p>`;
+                // In a real chat, we'd tell the server your name here
+            } else {
+                alert("Please enter a username!");
+            }
+        }
+
+        function sendMessage() {
+            const message = messageInput.value.trim();
+            if (message && myUsername) {
+                const newMessage = document.createElement('p');
+                newMessage.textContent = `[${myUsername}]: ${message}`;
+                chatArea.appendChild(newMessage);
+                messageInput.value = "";
+                chatArea.scrollTop = chatArea.scrollHeight; // Scroll to the bottom
+                // In a real chat, we'd send this message to the server
+            } else if (!myUsername) {
+                alert("Please enter your username first!");
+            } else {
+                alert("Please type a message!");
+            }
+        }
+
+        // Let's add a fake welcome message when the page loads
+        window.onload = function() {
+            const welcomeMessage = document.createElement('p');
+            welcomeMessage.textContent = "Welcome to the chat! Please enter your name to start.";
+            chatArea.appendChild(welcomeMessage);
+        };
+    </script>
+</body>
+</html>
